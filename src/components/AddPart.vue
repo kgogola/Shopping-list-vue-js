@@ -50,6 +50,7 @@ export default {
   border-radius: 25px;
   background-color: white;
   color: black;
+  overflow: hidden;
 }
 
 #addButton {
