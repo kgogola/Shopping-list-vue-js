@@ -1,8 +1,8 @@
 <template>
 <div class="container board">
-      <addCom v-on:add="addElement($event)"></addCom>
-      <listCom v-on:deleteItem="deleteItem($event)"v-bind:items="items" v-bind:totalCost="totalCost"></listCom>
-      <button class="sendingButtons">Send</button>
+  <addCom @add="addElement($event)"></addCom>
+  <listCom @deleteItem="deleteItem($event)":items="items" :sum="sum"></listCom>
+  <button class="sending-buttons">Send</button>
 </div>
 </template>
 
@@ -13,20 +13,27 @@ import ListPart from "./ListPart.vue";
 
 export default {
   components: {
-    addCom: AddPart, 
-    listCom: ListPart 
+    addCom: AddPart,
+    listCom: ListPart
   },
-  
-  data: function() {
+
+  data() {
     return {
-      items: [],
-      totalCost: 0
+      items: []
     };
+  },
+  computed: {
+    sum: function() {
+      return this.items.reduce(
+        (cost, items) => cost + parseFloat(items.price),
+        0
+      );
+    }
   },
 
   methods: {
     addElement(presentElement) {
-      if (isNaN(presentElement.price)) {
+      if (isNaN(presentElement.price) || presentElement.price == "") {
         return;
       }
       this.items.push({
@@ -34,11 +41,9 @@ export default {
         price: presentElement.price,
         numberOfItem: presentElement.numberOfItem
       });
-      this.totalCost = this.totalCost + parseFloat(presentElement.price);
     },
-    deleteItem(PresentItem) {
-      this.totalCost = this.totalCost - this.items[PresentItem].price;
-      this.$delete(this.items, PresentItem);
+    deleteItem(presentItem) {
+      this.$delete(this.items, presentItem);
     }
   }
 };
@@ -47,15 +52,11 @@ export default {
 
 <style>
 .container {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
   position: relative;
   width: 1000px;
   color: grey;
 }
-.sendingButtons {
+.sending-buttons {
   background-color: green;
   color: white;
   border-radius: 30px;
