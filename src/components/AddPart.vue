@@ -1,18 +1,16 @@
 <template>
-  <div class="row AddingRows">
-    <input v-model="product" class="col-5 AddingColumns"placeholder="ITEM"></input>
-    <input v-model="price" class="col-5 AddingColumns" placeholder="PRICE"></input>
-    <button class="col-2 AddingColumns" id="addButton" type="submit"  v-on:click="add" >ADD</button>
-
+  <div class="row adding-rows">
+    <input v-model="product" class="col-5 adding-columns"placeholder="ITEM"></input>
+    <input v-model="price" class="col-5 adding-columns" placeholder="PRICE"></input>
+    <button class="col-2 adding-button"  type="submit"  @click="add" >ADD</button>
   </div>
-  </body>
-
+ 
 </template>
 
 
 <script>
 export default {
-  data: function() {
+  data() {
     return {
       product: "",
       price: "",
@@ -22,11 +20,7 @@ export default {
 
   methods: {
     add() {
-      this.$emit("add", {
-        product: this.product,
-        price: this.price,
-        numberOfItem: this.numberOfItem
-      });
+      this.$emit("add", this.$data);
     }
   }
 };
@@ -34,16 +28,7 @@ export default {
 
 
 <style scoped>
-#all {
-  background-color: black;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-  position: relative;
-}
-
-.AddingColumns {
+.adding-columns {
   float: left;
   color: black;
   border: 3px solid black;
@@ -52,10 +37,11 @@ export default {
   color: black;
   overflow: hidden;
 }
-
-#addButton {
+.adding-button {
   background-color: green;
   color: white;
   cursor: pointer;
+  border-radius: 50px;
+  overflow: hidden;
 }
 </style>
